@@ -7,9 +7,10 @@ const Button = ({ onClick, text }) => {
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>
-      {text}: {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
@@ -33,12 +34,16 @@ const Statistics = ({ good, neutral, bad, totalComments }) => {
   return (
     <div>
       <h2>Statistics</h2>
-      <StatisticLine text="Good" value={good} />
-      <StatisticLine text="Neutral" value={neutral} />
-      <StatisticLine text="Bad" value={bad} />
-      <StatisticLine text="Total comments" value={totalComments} />
-      <StatisticLine text="Average score" value={calculateAverageScore()} />
-      <StatisticLine text="Positive comments" value={`${calculatePositivePercentage()}%`} />
+      <table>
+        <tbody>
+          <StatisticLine text="Good" value={good} />
+          <StatisticLine text="Neutral" value={neutral} />
+          <StatisticLine text="Bad" value={bad} />
+          <StatisticLine text="Total comments" value={totalComments} />
+          <StatisticLine text="Average score" value={calculateAverageScore()} />
+          <StatisticLine text="Positive comments" value={`${calculatePositivePercentage()}%`} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -83,4 +88,5 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
 
