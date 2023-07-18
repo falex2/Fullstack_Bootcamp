@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>;
+};
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>
+      {text}: {value}
+    </p>
+  );
+};
+
 const Statistics = ({ good, neutral, bad, totalComments }) => {
   // Calculate the average score
   const calculateAverageScore = () => {
@@ -14,15 +26,19 @@ const Statistics = ({ good, neutral, bad, totalComments }) => {
     return (good / totalComments) * 100;
   };
 
+  if (totalComments === 0) {
+    return <p>No hay estadísticas</p>;
+  }
+
   return (
     <div>
       <h2>Statistics</h2>
-      <p>Total comments: {totalComments}</p>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>Average score: {calculateAverageScore()}</p>
-      <p>Positive comments: {calculatePositivePercentage()}%</p>
+      <StatisticLine text="Good" value={good} />
+      <StatisticLine text="Neutral" value={neutral} />
+      <StatisticLine text="Bad" value={bad} />
+      <StatisticLine text="Total comments" value={totalComments} />
+      <StatisticLine text="Average score" value={calculateAverageScore()} />
+      <StatisticLine text="Positive comments" value={`${calculatePositivePercentage()}%`} />
     </div>
   );
 };
@@ -57,9 +73,9 @@ const App = () => {
     <div>
       <h1>Feedback App</h1>
       <div>
-        <button onClick={() => handleButtonClick('good')}>Good</button>
-        <button onClick={() => handleButtonClick('neutral')}>Neutral</button>
-        <button onClick={() => handleButtonClick('bad')}>Bad</button>
+        <Button onClick={() => handleButtonClick('good')} text="Good" />
+        <Button onClick={() => handleButtonClick('neutral')} text="Neutral" />
+        <Button onClick={() => handleButtonClick('bad')} text="Bad" />
       </div>
       <Statistics good={good} neutral={neutral} bad={bad} totalComments={totalComments} />
     </div>
@@ -67,3 +83,4 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
