@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+const Statistics = ({ good, neutral, bad, totalComments }) => {
+  // Calculate the average score
+  const calculateAverageScore = () => {
+    if (totalComments === 0) return 0;
+    return (good - bad) / totalComments;
+  };
+
+  // Calculate the percentage of positive comments
+  const calculatePositivePercentage = () => {
+    if (totalComments === 0) return 0;
+    return (good / totalComments) * 100;
+  };
+
+  return (
+    <div>
+      <h2>Statistics</h2>
+      <p>Total comments: {totalComments}</p>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>Average score: {calculateAverageScore()}</p>
+      <p>Positive comments: {calculatePositivePercentage()}%</p>
+    </div>
+  );
+};
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-  const [totalComments, setTotalComments] = useState(0);
+
+  // Calculate the total number of comments
+  const totalComments = good + neutral + bad;
 
   // Function to handle the click of each button
   const handleButtonClick = (type) => {
@@ -23,19 +51,6 @@ const App = () => {
       default:
         break;
     }
-    setTotalComments(totalComments + 1);
-  };
-
-  // Calculate the average score
-  const calculateAverageScore = () => {
-    if (totalComments === 0) return 0;
-    return (good - bad) / totalComments;
-  };
-
-  // Calculate the percentage of positive comments
-  const calculatePositivePercentage = () => {
-    if (totalComments === 0) return 0;
-    return (good / totalComments) * 100;
   };
 
   return (
@@ -46,13 +61,7 @@ const App = () => {
         <button onClick={() => handleButtonClick('neutral')}>Neutral</button>
         <button onClick={() => handleButtonClick('bad')}>Bad</button>
       </div>
-      <h2>Statistics</h2>
-      <p>Total comments: {totalComments}</p>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>Average score: {calculateAverageScore()}</p>
-      <p>Positive comments: {calculatePositivePercentage()}%</p>
+      <Statistics good={good} neutral={neutral} bad={bad} totalComments={totalComments} />
     </div>
   );
 };
